@@ -33,3 +33,25 @@
 
 # Ignore master key for decrypting credentials and more.
 /config/master.key
+
+# Rails
+/public/packs
+/public/packs-test
+.byebug_history
+
+# Ruby
+*.gem
+*.rbc
+/.yardoc
+/.ruby-version
+/.ruby-gemset
+/.rbenv-vars
+
+# Node.js
+/node_modules
+/.pnp
+.pnp.js
+
+# MAC OS
+.DS_Store
+Thumbs.db
