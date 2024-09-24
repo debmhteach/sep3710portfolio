@@ -12,8 +12,13 @@
   <% end %>
 
   <div>
-    <%= form.label :name, style: "display: block" %>
-    <%= form.text_field :name %>
+    <%= form.label :first_name, style: "display: block" %>
+    <%= form.text_field :first_name %>
+  </div>
+
+  <div>
+    <%= form.label :last_name, style: "display: block" %>
+    <%= form.text_field :last_name %>
   </div>
 
   <div>
@@ -27,14 +32,15 @@
   </div>
 
   <div>
-    <%= form.label :minor, style: "display: block" %>
-    <%= form.text_field :minor %>
+    <%= form.label :expected_graduation_date, style: "display: block" %>
+    <%= form.date_field :expected_graduation_date %>
   </div>
 
   <div>
-    <%= form.label :graduation_date, style: "display: block" %>
-    <%= form.date_field :graduation_date %>
+    <%= form.label :profile_picture, style: "display: block" %>
+    <%= form.file_field :profile_picture %>
   </div>
+
 
   <div>
     <%= form.submit %>

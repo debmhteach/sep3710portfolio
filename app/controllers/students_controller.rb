@@ -8,7 +8,9 @@ class StudentsController < ApplicationController
 
   # GET /students/1 or /students/1.json
   def show
+    @student = Student.find(params[:id])
   end
+
 
   # GET /students/new
   def new
@@ -65,6 +67,6 @@ class StudentsController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def student_params
-      params.require(:student).permit(:name, :school_email, :major, :minor, :graduation_date)
+      params.require(:student).permit(:first_name, :last_name, :school_email, :major, :expected_graduation_date, :profile_picture)
     end
 end
