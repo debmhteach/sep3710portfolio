@@ -1,5 +1,16 @@
 require "test_helper"
 
+RSpec.describe StudentsController, type: :controller do
+  describe "GET #index" do
+    it "assigns @students and renders the index template" do
+      student = Student.create!(first_name: "John", last_name: "Doe", school_email: "john@university.edu", major: "CS")
+      get :index
+      expect(assigns(:students)).to eq([student])
+      expect(response).to render_template(:index)
+    end
+  end
+end
+
 class StudentsControllerTest < ActionDispatch::IntegrationTest
   setup do
     @student = students(:one)

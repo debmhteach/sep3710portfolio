@@ -28,7 +28,7 @@
 
   <div>
     <%= form.label :major, style: "display: block" %>
-    <%= form.text_field :major %>
+    <%= form.select :major, options_for_select(Student::VALID_MAJORS), { prompt: "Select a Major" }, class: "form-control" %>
   </div>
 
   <div>
@@ -46,3 +46,34 @@
     <%= form.submit %>
   </div>
 <% end %>
+
+
+<%= form_with(model: student, local: true) do |form| %>
+  <div class="form-group">
+    <%= form.label :first_name %>
+    <%= form.text_field :first_name, class: "form-control" %>
+  </div>
+
+  <div class="form-group">
+    <%= form.label :last_name %>
+    <%= form.text_field :last_name, class: "form-control" %>
+  </div>
+
+  <div class="form-group">
+    <%= form.label :school_email %>
+    <%= form.text_field :school_email, class: "form-control" %>
+  </div>
+
+  <div class="form-group">
+    <%= form.label :major %>
+    <%= form.text_field :major, class: "form-control" %>
+  </div>
+
+  <div class="form-group">
+    <%= form.label :expected_graduation_date %>
+    <%= form.date_select :expected_graduation_date, class: "form-control" %>
+  </div>
+
+  <%= form.submit class: "btn btn-primary" %>
+<% end %>
+
