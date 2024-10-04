@@ -7,13 +7,34 @@ class StudentsController < ApplicationController
     Rails.logger.info "Params: #{params.inspect}"
     
     @search_params = params[:search] || {}
-    @students = Student.all
+    # If there are search parameters, filter the students
+    if @search_params.present?
+      @students = Student.all
 
-      Rails.logger.info "Search Params: #{@search_params.inspect}"
+      # Filter by graduation date if present
+      # Date search logic
+      if @search_params[:expected_graduation_date].present? && @search_params[:date_type].present?
+        if @search_params[:date_type] == "before"
+          @students = @students.where("expected_graduation_date < ?", @search_params[:expected_graduation_date])
+        elsif @search_params[:date_type] == "after"
+          @students = @students.where("expected_graduation_date > ?", @search_params[:expected_graduation_date])
+        end
+      end
 
-    if @search_params[:major].present?
-      @students = @students.where(major: @search_params[:major])
+      # Filter by major if present
+      if @search_params[:major].present?
+        @students = @students.where(major: @search_params[:major])
+      end
+
+      
+    else
+      # If no search parameters are present, return an empty collection
+      @students = Student.none
     end
+
+    # Log for debugging
+    Rails.logger.info "Search Params: #{@search_params.inspect}"
+    Rails.logger.info "Filtered Students: #{@students.inspect}"
 
   end
 
