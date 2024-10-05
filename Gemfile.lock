@@ -101,6 +101,8 @@ GEM
       reline (>= 0.3.8)
     drb (2.2.1)
     erubi (1.13.0)
+    faker (3.4.2)
+      i18n (>= 1.8.11, < 2)
     ffi (1.17.0-aarch64-linux-gnu)
     globalid (1.2.1)
       activesupport (>= 6.1)
@@ -248,6 +250,7 @@ DEPENDENCIES
   bootsnap
   capybara
   debug
+  faker
   image_processing (~> 1.2)
   importmap-rails
   jbuilder

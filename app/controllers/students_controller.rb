@@ -4,8 +4,7 @@ class StudentsController < ApplicationController
   # GET /students or /students.json
 
   def index
-    Rails.logger.info "Params: #{params.inspect}"
-    
+
     @search_params = params[:search] || {}
     # If there are search parameters, filter the students
     if @search_params.present?
