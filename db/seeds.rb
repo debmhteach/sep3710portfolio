@@ -31,9 +31,9 @@ Student.destroy_all # Clear existing records if any
     
   )
    # Generate a unique profile pic based on the student's name
-    #profile_picture_url = "https://robohash.org/#{student.first_name.gsub(' ', '')}"
-    #profile_picture = URI.open(profile_picture_url)
-    #student.profile_picture.attach(io: profile_picture, filename: "#{student.first_name}.jpg")
+  profile_picture_url = "https://robohash.org/#{student.first_name.gsub(' ', '')}"
+  profile_picture = URI.open(profile_picture_url)
+  student.profile_picture.attach(io: profile_picture, filename: "#{student.first_name}.jpg")
 end
 
 puts "50 students created."
