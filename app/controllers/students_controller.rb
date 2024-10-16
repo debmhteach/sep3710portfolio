@@ -1,7 +1,7 @@
 class StudentsController < ApplicationController
   before_action :set_student, only: %i[ show edit update destroy ]
 
-  # GET /students or /students.json
+ #  or /students.json
 
   def index
 
@@ -9,6 +9,11 @@ class StudentsController < ApplicationController
     # If there are search parameters, filter the students
     if @search_params.present?
       @students = Student.all
+
+      # Filter by major if present
+      if @search_params[:major].present?
+        @students = @students.where(major: @search_params[:major])
+      end
 
       # Filter by graduation date if present
       # Date search logic
@@ -24,8 +29,7 @@ class StudentsController < ApplicationController
       if @search_params[:major].present?
         @students = @students.where(major: @search_params[:major])
       end
-
-      
+  
     else
       # If no search parameters are present, return an empty collection
       @students = Student.none
