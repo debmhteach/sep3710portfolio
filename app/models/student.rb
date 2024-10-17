@@ -9,8 +9,8 @@ class Student < ApplicationRecord
     validates :major, presence: true
     validates :expected_graduation_date, presence: true
     validates :school_email, presence: true
-    validates :school_email, uniqueness: true
-    validate :school_email_format
+    #validates :school_email, uniqueness: true
+    #validate :school_email_format
     has_one_attached :profile_picture, dependent: :purge_later 
     validate :acceptable_image
 
