@@ -1,5 +1,5 @@
 Rails.application.routes.draw do
-  devise_for :students
+  devise_for :students, controllers: { registrations: 'students/registrations' }
   resources :students
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
 
