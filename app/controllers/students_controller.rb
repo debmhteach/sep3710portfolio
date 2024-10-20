@@ -3,43 +3,40 @@ class StudentsController < ApplicationController
 
  #  or /students.json
 
-  def index
+# The index method will only display students if a search was selected
+def index
+  # Assigns search params or an empty hash 
+  @search_params = params[:search] || {}
+  Rails.logger.info "Search Params: #{@search_params.inspect}"
 
-    @search_params = params[:search] || {}
-    # If there are search parameters, filter the students
-    if @search_params.present?
-      @students = Student.all
+  # Intialze all students to fillter based on other search paraemeters
+  @students = Student.all 
 
-      # Filter by major if present
-      if @search_params[:major].present?
-        @students = @students.where(major: @search_params[:major])
-      end
-
-      # Filter by graduation date if present
-      # Date search logic
-      if @search_params[:expected_graduation_date].present? && @search_params[:date_type].present?
-        if @search_params[:date_type] == "before"
-          @students = @students.where("expected_graduation_date < ?", @search_params[:expected_graduation_date])
-        elsif @search_params[:date_type] == "after"
-          @students = @students.where("expected_graduation_date > ?", @search_params[:expected_graduation_date])
-        end
-      end
-
-      # Filter by major if present
-      if @search_params[:major].present?
-        @students = @students.where(major: @search_params[:major])
-      end
-  
-    else
-      # If no search parameters are present, return an empty collection
-      @students = Student.none
+  if params[:show_all]
+    # no updates since @students  contains all
+  else
+    #filter for remaining parameters
+    # Filter by major if present
+    if @search_params[:major].present?
+      @students = @students.where(major: @search_params[:major])
     end
 
-    # Log for debugging
-    Rails.logger.info "Search Params: #{@search_params.inspect}"
-    Rails.logger.info "Filtered Students: #{@students.inspect}"
+    # Filter by graduation date if present along with the date type
+    if @search_params[:expected_graduation_date].present? && @search_params[:date_type].present?
+      if @search_params[:date_type] == "before"
+        @students = @students.where("expected_graduation_date < ?", @search_params[:expected_graduation_date])
+      elsif @search_params[:date_type] == "after"
+        @students = @students.where("expected_graduation_date > ?", @search_params[:expected_graduation_date])
+      end
+    end
 
+    # If no search parameters match, return an empty collection
+    @students = Student.none if @students.empty?
   end
+
+  # Log for debugging
+  Rails.logger.info "Filtered Students: #{@students.inspect}"
+end
 
 
   # GET /students/1 or /students/1.json
@@ -103,6 +100,6 @@ class StudentsController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def student_params
-      params.require(:student).permit(:first_name, :last_name, :major, :expected_graduation_date, :profile_picture)
+      params.require(:student).permit(:first_name, :last_name, :major, :expected_graduation_date, :profile_picture, :show_all)
     end
 end
