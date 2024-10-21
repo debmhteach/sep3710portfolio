@@ -1,5 +1,6 @@
 Rails.application.routes.draw do
-devise_for :students, controllers: { 
+  resources :portfolios
+  devise_for :students, controllers: { 
   registrations: 'students/registrations',
   sessions: 'students/sessions',
   passwords: 'students/passwords' 

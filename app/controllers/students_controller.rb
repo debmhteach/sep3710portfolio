@@ -1,42 +1,51 @@
 class StudentsController < ApplicationController
+  # Student must be authenticated for edit, update, and destroy actions
+  #before_action :authenticate_student!, only: %i[ edit update destroy ]
+  
+  # Logged-in student can only modify their own profile
+  #before_action :correct_student, only: %i[ edit update destroy ]
+  
+  # Set the @student instance for actions like show, edit, update, destroy
   before_action :set_student, only: %i[ show edit update destroy ]
 
  #  or /students.json
 
-# The index method will only display students if a search was selected
-def index
-  # Assigns search params or an empty hash 
-  @search_params = params[:search] || {}
-  Rails.logger.info "Search Params: #{@search_params.inspect}"
+  # The index method will only display students if a search was selected
+  def index
+    # Assigns search params or an empty hash 
+    @search_params = params[:search] || {}
+    Rails.logger.info "Search Params: #{@search_params.inspect}"
 
-  # Intialze all students to fillter based on other search paraemeters
-  @students = Student.all 
 
-  if params[:show_all]
-    # no updates since @students  contains all
-  else
-    #filter for remaining parameters
-    # Filter by major if present
-    if @search_params[:major].present?
-      @students = @students.where(major: @search_params[:major])
-    end
+    if params[:show_all]
+      # query for all students
+      @students = Student.all
+    elsif @search_params.present?
+      #quety to initialize all stduents
+      @students = Student.all
 
-    # Filter by graduation date if present along with the date type
-    if @search_params[:expected_graduation_date].present? && @search_params[:date_type].present?
-      if @search_params[:date_type] == "before"
-        @students = @students.where("expected_graduation_date < ?", @search_params[:expected_graduation_date])
-      elsif @search_params[:date_type] == "after"
-        @students = @students.where("expected_graduation_date > ?", @search_params[:expected_graduation_date])
+      # query for major
+      if @search_params[:major].present?
+        @students = @students.where(major: @search_params[:major])
       end
+
+      # query for before or after if graduation date selected
+      if @search_params[:expected_graduation_date].present? && @search_params[:date_type].present?
+        date = @search_params[:expected_graduation_date]
+        if @search_params[:date_type] == "before"
+          @students = @students.where("expected_graduation_date < ?", date)
+        elsif @search_params[:date_type] == "after"
+          @students = @students.where("expected_graduation_date > ?", date)
+        end
+      end
+    else
+      # If no search parameters are present, return an empty collection
+      @students = Student.none
     end
 
-    # If no search parameters match, return an empty collection
-    @students = Student.none if @students.empty?
+    # Log for debugging
+    Rails.logger.info "Filtered Students: #{@students.inspect}"
   end
-
-  # Log for debugging
-  Rails.logger.info "Filtered Students: #{@students.inspect}"
-end
 
 
   # GET /students/1 or /students/1.json
@@ -92,14 +101,22 @@ end
     end
   end
 
-  private
+    private
     # Use callbacks to share common setup or constraints between actions.
     def set_student
       @student = Student.find(params[:id])
     end
 
+     # Only allow the logged-in student to edit, update, or destroy their own profile
+    def correct_student
+      unless current_student == @student
+        redirect_to root_path, alert: "You are not authorized to modify this profile."
+      end
+    end
+
     # Only allow a list of trusted parameters through.
     def student_params
-      params.require(:student).permit(:first_name, :last_name, :major, :expected_graduation_date, :profile_picture, :show_all)
+      params.require(:student).permit(:first_name, :last_name, :major, :expected_graduation_date, :profile_picture,
+      portfolio_attributes: [:preferred_email, :active, :summary, :skills])
     end
 end

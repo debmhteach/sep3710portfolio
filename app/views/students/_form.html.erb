@@ -21,6 +21,11 @@
     <%= form.text_field :last_name %>
   </div>
 
+  <div>
+    <%= form.label :email, style: "display: block" %>
+    <%= form.text_field :email %>
+  </div>
+
 
   <div>
     <%= form.label :major, style: "display: block" %>
@@ -37,39 +42,33 @@
     <%= form.file_field :profile_picture %>
   </div>
 
+<h2>Edit Portfolio Information</h2>
+
+  <%= form.fields_for :portfolio do |portfolio_form| %>
+    <div>
+      <%= portfolio_form.label :preferred_email %>
+      <%= portfolio_form.text_field :preferred_email %>
+    </div>
+
+    <div>
+      <%= portfolio_form.label :active %>
+      <%= portfolio_form.check_box :active %>
+    </div>
+
+    <div>
+      <%= portfolio_form.label :summary %>
+      <%= portfolio_form.text_area :summary %>
+    </div>
+
+    <div>
+      <%= portfolio_form.label :skills %>
+      <%= portfolio_form.text_area :skills %>
+    </div>
+  <% end %>
 
   <div>
-    <%= form.submit %>
+    <%= form.submit "Update Profile" %>
   </div>
-<% end %>
-
-
-<%= form_with(model: student, local: true) do |form| %>
-  <div class="form-group">
-    <%= form.label :first_name %>
-    <%= form.text_field :first_name, class: "form-control" %>
-  </div>
-
-  <div class="form-group">
-    <%= form.label :last_name %>
-    <%= form.text_field :last_name, class: "form-control" %>
-  </div>
-
-  <div class="form-group">
-    <%= form.label :school_email %>
-    <%= form.text_field :school_email, class: "form-control" %>
-  </div>
-
-  <div class="form-group">
-    <%= form.label :major %>
-    <%= form.text_field :major, class: "form-control" %>
-  </div>
-
-  <div class="form-group">
-    <%= form.label :expected_graduation_date %>
-    <%= form.date_select :expected_graduation_date, class: "form-control" %>
-  </div>
-
-  <%= form.submit class: "btn btn-primary" %>
+  
 <% end %>
 
