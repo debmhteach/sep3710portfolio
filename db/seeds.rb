@@ -19,17 +19,32 @@ end
 # Ensure there are no orphaned attachments or blobs
 ActiveStorage::Blob.where.missing(:attachments).find_each(&:purge)
 
-Student.destroy_all # Clear existing records if any
+# Destroy existing records
+Portfolio.destroy_all
+Student.destroy_all
 
 50.times do |i|
   student =Student.create!(
     first_name: "First #{i + 1}",
     last_name: "Last #{i + 1}",
-    school_email: "student#{i + 1}@msudenver.edu",
-    major: Student::VALID_MAJORS.sample, # Assuming you have a VALID_MAJORS constant
+    email: "student#{i + 1}@msudenver.edu",
+    password: "password",  # Set a default password
+    password_confirmation: "password",
+    major: Student::VALID_MAJORS.sample,
     expected_graduation_date: Faker::Date.between(from: 2.years.ago, to: 2.years.from_now),
     
   )
+
+    # Create a portfolio for the student
+  Portfolio.create!(
+    student: student,
+    preferred_email: "student#{i + 1}@gmail.com",
+    active: [true, false].sample,  # Randomly assign true or false for active status
+    summary: Faker::Lorem.sentence(word_count: 20),
+    skills: Faker::Lorem.words(number: 5).join(", ")
+  )
+
+
    # Generate a unique profile pic based on the student's name
   profile_picture_url = "https://robohash.org/#{student.first_name.gsub(' ', '')}"
   profile_picture = URI.open(profile_picture_url)

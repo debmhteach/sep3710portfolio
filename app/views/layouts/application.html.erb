@@ -40,6 +40,8 @@
         </div>
       </div>
     </nav>
+       <p class="notice"><%= notice %></p>
+       <p class="alert"><%= alert %></p>
 
     <% if student_signed_in? %>
   <%= button_to "Sign Out", destroy_student_session_path, method: :delete %>

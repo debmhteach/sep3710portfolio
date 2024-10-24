@@ -1,12 +1,14 @@
 class StudentsController < ApplicationController
   # Student must be authenticated for edit, update, and destroy actions
-  #before_action :authenticate_student!, only: %i[ edit update destroy ]
+  before_action :authenticate_student!, only: %i[ edit update destroy ]
+
+    # Set the @student instance for actions like show, edit, update, destroy
+  before_action :set_student, only: %i[show edit update destroy ]
   
   # Logged-in student can only modify their own profile
-  #before_action :correct_student, only: %i[ edit update destroy ]
+  before_action :correct_student, only: %i[ edit update destroy ]
   
-  # Set the @student instance for actions like show, edit, update, destroy
-  before_action :set_student, only: %i[ show edit update destroy ]
+
 
  #  or /students.json
 
@@ -16,11 +18,11 @@ class StudentsController < ApplicationController
     @search_params = params[:search] || {}
     Rails.logger.info "Search Params: #{@search_params.inspect}"
 
-
-    if params[:show_all]
+ 
+    if @search_params.present?
       # query for all students
       @students = Student.all
-    elsif @search_params.present?
+    elsif params[:show_all]
       #quety to initialize all stduents
       @students = Student.all
 
@@ -61,6 +63,7 @@ class StudentsController < ApplicationController
 
   # GET /students/1/edit
   def edit
+    
   end
 
   # POST /students or /students.json
@@ -105,6 +108,7 @@ class StudentsController < ApplicationController
     # Use callbacks to share common setup or constraints between actions.
     def set_student
       @student = Student.find(params[:id])
+      Rails.logger.info "@student: #{@student}"
     end
 
      # Only allow the logged-in student to edit, update, or destroy their own profile
