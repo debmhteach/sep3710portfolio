@@ -19,7 +19,8 @@ class StudentsController < ApplicationController
     Rails.logger.info "Search Params: #{@search_params.inspect}"
 
  
-    if @search_params.present?
+    #if @search_params.present?
+    if  @search_params != {}
       # query for all students
       @students = Student.all
     elsif params[:show_all]
@@ -108,7 +109,7 @@ class StudentsController < ApplicationController
     # Use callbacks to share common setup or constraints between actions.
     def set_student
       @student = Student.find(params[:id])
-      Rails.logger.info "@student: #{@student}"
+      Rails.logger.info "Students: #{@students.inspect}"
     end
 
      # Only allow the logged-in student to edit, update, or destroy their own profile

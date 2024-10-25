@@ -14,6 +14,7 @@ class Student < ApplicationRecord
 
 
     #has one relationship and destroy portfolio if student deleted
+    #https://guides.rubyonrails.org/v7.1/association_basics.html
     has_one :portfolio, dependent: :destroy
     after_create :create_portfolio
     #allow editing of portfolio information in form
@@ -22,6 +23,7 @@ class Student < ApplicationRecord
     private
 
     #create portfolio when student created
+    #https://guides.rubyonrails.org/v7.1/association_basics.html
     def create_portfolio
         #link portfolio to id of student
         Portfolio.create!(student: self, active: false)
