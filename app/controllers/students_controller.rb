@@ -125,8 +125,8 @@ class StudentsController < ApplicationController
   end
 
   def search_params_permitted
-    params.require(:search).permit(:major, :expected_graduation_date, :date_type)
-    
+    #params.require(:search).permit(:major, :expected_graduation_date, :date_type)
+    params.fetch(:search, {}).permit(:major, :expected_graduation_date, :date_type)
   end
 
   def filter_students(search_params)
