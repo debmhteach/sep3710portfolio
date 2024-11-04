@@ -15,6 +15,8 @@ class Student < ApplicationRecord
     after_create :create_portfolio
     #allow editing of portfolio information in form
     accepts_nested_attributes_for :portfolio
+
+    has_many :projects, dependent: :destroy
     
     #Allowed Majors - this is hardcoded for learning 
     # If you wanted an admin for example to update this informatin

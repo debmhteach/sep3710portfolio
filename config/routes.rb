@@ -1,5 +1,4 @@
 Rails.application.routes.draw do
-  resources :portfolios
   devise_for :students, controllers: { 
   registrations: 'students/registrations',
   sessions: 'students/sessions',
@@ -9,6 +8,7 @@ Rails.application.routes.draw do
   # Necessary Student routes and  portfolio routes
   resources :students, only: [:index, :show, :edit, :update, :destroy] do
     resource :portfolio, only: [:show, :edit, :update]  # Nesting portfolio under student
+    resources :projects, only: [:index, :new, :create, :show, :edit, :update, :destroy]  # Nesting portfolio under student
   end
 
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html

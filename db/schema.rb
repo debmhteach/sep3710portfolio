@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2024_10_28_040458) do
+ActiveRecord::Schema[7.1].define(version: 2024_11_04_173726) do
   create_table "active_storage_attachments", force: :cascade do |t|
     t.string "name", null: false
     t.string "record_type", null: false
@@ -53,10 +53,10 @@ ActiveRecord::Schema[7.1].define(version: 2024_10_28_040458) do
   create_table "projects", force: :cascade do |t|
     t.string "title"
     t.text "description"
-    t.integer "portfolio_id", null: false
+    t.integer "student_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["portfolio_id"], name: "index_projects_on_portfolio_id"
+    t.index ["student_id"], name: "index_projects_on_student_id"
   end
 
   create_table "students", force: :cascade do |t|
@@ -78,5 +78,5 @@ ActiveRecord::Schema[7.1].define(version: 2024_10_28_040458) do
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
   add_foreign_key "portfolios", "students", on_delete: :cascade
-  add_foreign_key "projects", "portfolios"
+  add_foreign_key "projects", "students"
 end

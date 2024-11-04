@@ -1,0 +1,9 @@
+<p style="color: green"><%= notice %></p>
+
+<%= render @project %>
+
+<div>
+  <%= link_to "Edit this project", edit_student_project_path(@student, @project) %> <br>
+  <%= button_to "Destroy this project", student_project_path(@student, @project), method: :delete, data: { confirm: "Are you sure?" } %> <br>
+  <%= link_to "Back", student_path(@student) %>
+</div>

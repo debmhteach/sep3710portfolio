@@ -1,0 +1,10 @@
+<h1>Editing Project</h1>
+
+<%= render "form", student: @student, project: @project %>
+
+<br>
+
+<div>
+  <%= link_to "Show this project", student_project_path(@student, @project) %> |
+  <%= link_to "Back to Student", student_path(@student) %>
+</div>

@@ -1,6 +1,12 @@
 # spec/factories.rb
 
 FactoryBot.define do
+  factory :project do
+    title { "MyString" }
+    description { "MyText" }
+    student { nil }
+  end
+
   factory(:student) do
     first_name { Faker::Name.first_name }
     last_name { Faker::Name.last_name }
